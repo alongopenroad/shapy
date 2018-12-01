@@ -19,7 +19,7 @@
         :label="'Width'"
         :name="'canvas-width'"
         :what="canvas.x"
-        :max="maxX"/>
+        :max="canvas.x.unit === 'px' ? canvas.x.max : 100"/>
 
       <!-- HEIGHT INPUT -->
       <input-wrapper
@@ -27,7 +27,7 @@
         :label="'Height'"
         :name="'canvas-height'"
         :what="canvas.y"
-        :max="maxY"/>
+        :max="canvas.y.unit === 'px' ? canvas.y.max : 100"/>
     </template>
   </div>
 </template>
@@ -35,7 +35,6 @@
 <script>
 import InputWrapper from '@/components/InputWrapper'
 import GroupToggle from '@/components/GroupToggle'
-import { mapGetters } from 'vuex'
 import { createHelpers } from 'vuex-map-fields'
 const { mapFields } = createHelpers({
   getterType: 'canvas/getField',
@@ -53,16 +52,7 @@ export default {
     desc: "Edit the size of your canvas. Choose 'px' by clicking on the unit."
   }),
   computed: {
-    ...mapFields(['canvas']),
-    ...mapGetters(['canvas/canvas']),
-    maxX() {
-      if (this.canvas.x.unit === 'px') return this.canvas.x.max
-      else return 100
-    },
-    maxY() {
-      if (this.canvas.y.unit === 'px') return this.canvas.y.max
-      else return 100
-    }
+    ...mapFields(['canvas'])
   }
 }
 </script>
